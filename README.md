@@ -12,12 +12,10 @@ commodity-driven deforestation and restoring degraded lands.
 
 ## Models
 
-Coming soon!
-
 Downloadable TensorFlow models are available in the `/models` directory.
 
-The `host_model.ipynb` notebook demonstrates how to host a model and connect
-to it from Eartyh Engine.
+The orest_Data_Partnership_model_hosting.ipynb` notebook demonstrates how to host a model and connect
+to it from Earth Engine.
 
 ## Papers
 
