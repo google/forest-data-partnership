@@ -19,4 +19,4 @@ to it from Earth Engine.
 
 ## Papers
 
-Coming soon!
+https://arxiv.org/pdf/2405.09530
