@@ -13,7 +13,7 @@ Absences were derived from presence of other crops. Palm presence created by Goo
 
 ## Accuracy
 
-An independent validation dataset was not available.  Insetead, accuracy was assessed on the 10% of the data that were not used in model training or selection.  At 0.5 threshold on the output probabilities, precision is ~90%, recall is ~91% and accuracy is ~97%.  These are likely to be optimistic estimates, overestimating accuracy due to spatial autocorrelation between the training, model selection and validation data.
+An independent validation dataset was not available.  Instead, accuracy was assessed on the 10% of the data that were not used in model training or selection.  At 0.5 threshold on the output probabilities, precision is ~90%, recall is ~91% and accuracy is ~97%.  These are likely to be optimistic estimates, overestimating accuracy due to spatial autocorrelation between the training, model selection and validation data.
 
 ## Limitations
 
