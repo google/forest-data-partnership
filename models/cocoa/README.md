@@ -1,7 +1,7 @@
-# Methods summary
+icus# Methods summary
 
 ## Input datasets
-The input datasets and model selection process are the same as described in Clinton et al. (2024) for palm mapping: input data are annual composites of Sentinel-1, Sentinel-2, ALOS PALSAR-2, and slope derived from global DEMs.
+The input datasets and model selection process are the same as described in Clinton et al. (2024) for palm mapping: input data are annual composites of Sentinel-1, Sentinel-2, ALOS PALSAR-2, and slope derived from the Copernicus GLO-30 DEM.
 
 ## Model
 The training data are randomly split into three sets and a platform similar to Google AutoML selects an optimal model architecture and parameters.  One set is used for training (80%), one for model/parameter selection (10%) and one for validation (10%).  The model type is per-pixel (i.e. not convolutional), meaning input is a 1-D vector.  Model training and selection is performed as described in Clinton et al. (2024), except folds are random instead of geographic.
