@@ -126,3 +126,7 @@ Model output is limited to selected countries as calendar year composites for 20
 
 # References
 
+# Suggested citation
+
+Forest Data Partnership. 2025. Community models 2025a. https://github.com/google/forest-data-partnership/edit/main/models/README.md
+
