@@ -1,1 +1,1 @@
-See https://arxiv.org/abs/2405.09530
+See [the model README](../README.md)
