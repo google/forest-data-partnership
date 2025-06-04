@@ -132,7 +132,25 @@ During model selection, the training dataset was randomly partitioned to 80% tra
 The model type is a deep neural network which exports a vector of estimated class probabilities, in the multi-class case, and a binary output for single class models. It is a per-pixel model in which the input is 1x1xC (for C bands) vector and the output is the estimated conditional class probability given the vector of covariates (xt) at time t. The architecture, activation function, optimization function, learning rate, batch size, training iterations and other parameters of the models and training configurations were chosen automatically using a hyperparameter search performed on infrastructure similar to [Google Cloud AutoML](https://cloud.google.com/automl).  The models were allowed to spend up to 24 hours each on hyperparameter tuning and training.
 
 ## Mapping Methodology
-The trained models were hosted on Google Vertex AI using 5-10 compute nodes of n1-standard-32 CPU machines and no accelerators.  Input imagery (pre-computed to minimize latency during inference) was forwarded from Google Earth Engine to the models on Vertex AI in serialized TensorFlow Example format over gRPC in [1,1] tiles. 
+The trained models were hosted on Google Vertex AI using 5-10 compute nodes of `n1-standard-32` CPU machines and no accelerators.  Input imagery (pre-computed to minimize latency during inference) was forwarded from Google Earth Engine to the models on Vertex AI in serialized TensorFlow [Example](https://github.com/tensorflow/tensorflow/blob/v2.16.1/tensorflow/core/example/example.proto) format over [gRPC](https://grpc.io/) in [1,1] tiles. The following demonstrates this connection from the Earth Engine Python client:
+
+```
+output_bands_dict = {}
+output_bands_dict['your_model_output_name'] = {
+    'type': ee.PixelType.float(),
+    'dimensions': 1,
+}
+model = ee.Model.fromVertexAi(
+    endpoint='projects/your-project/locations/your-location/endpoints/your-endpoint-id',
+    inputTileSize=[1, 1],
+    outputTileSize=[1, 1],
+    proj=ee.Projection('your_projection').atScale(your_scale),
+    payloadFormat='GRPC_SERIALIZED_TF_EXAMPLES',
+    fixInputProj=True,
+    outputBands=output_bands_dict,
+    maxPayloadBytes=5242800,
+)
+```
 
 # Results
 The results are viewable using [this Earth Engine link](https://code.earthengine.google.com/05c8429a558ae59ae698d260b2168ecb) in the following collections:
