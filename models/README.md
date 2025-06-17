@@ -153,7 +153,7 @@ model = ee.Model.fromVertexAi(
 ```
 
 # Results
-The results are viewable using [this Earth Engine link](https://code.earthengine.google.com/05c8429a558ae59ae698d260b2168ecb) in the following collections:
+The results are viewable using [this Earth Engine link](https://goo.gle/fodapa-layers) in the following collections:
 
 | Commodity  | Earth Engine collection |
 | ------------- | ------------- |
