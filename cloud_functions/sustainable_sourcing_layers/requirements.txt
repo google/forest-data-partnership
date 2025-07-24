@@ -1,0 +1,6 @@
+earthengine-api
+flask
+functions-framework
+google-api-core
+google-cloud-logging
+requests
