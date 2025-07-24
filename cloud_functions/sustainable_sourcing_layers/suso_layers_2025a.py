@@ -1,6 +1,8 @@
-import google.auth
-import ee
 import os
+
+import ee
+import google.auth
+from google.api_core import retry
 
 # First, initialize.
 credentials, _ = google.auth.default(
@@ -85,3 +87,26 @@ def get_areas_image() -> ee.Image:
       unclassified.rename('unclassified'),
       confusion.rename('confusion')
     ).multiply(ee.Image.pixelArea())
+
+@retry.Retry()
+def get_suso_stats(geojson):
+    """Get area stats for the provided geojson polygon."""
+    region = ee.Geometry(geojson)
+    feature_area = ee.Number(region.area(10))
+    suso_image = get_areas_image()
+    # Sum of pixel areas in square meters.
+    stats = suso_image.reduceRegion(
+        reducer=ee.Reducer.sum(),
+        geometry=region,
+        scale=10
+    )
+    # Gini index.
+    # See https://en.wikipedia.org/wiki/Decision_tree_learning#Gini_impurity.
+    crop_names = ['forest', 'cocoa', 'coffee', 'palm', 'rubber']
+    gini = ee.Number(1).subtract(ee.List(
+        [ee.Number(stats.get(c)).divide(feature_area) for c in crop_names]
+    ).reduce(ee.Reducer.sum()))
+    # Update the EE dictionary.
+    stats = stats.set('gini', gini).set('total_area', feature_area)
+    # Request the result to the client and return it.
+    return stats.getInfo()
