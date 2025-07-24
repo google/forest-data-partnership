@@ -9,6 +9,8 @@ import requests
 import google.auth
 import google.cloud.logging
 
+from suso_layers_2025a import get_suso_stats
+
 client = google.cloud.logging.Client()
 client.setup_logging()
 
