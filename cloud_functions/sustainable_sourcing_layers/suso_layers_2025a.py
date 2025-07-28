@@ -10,7 +10,7 @@ credentials, _ = google.auth.default(
 )
 ee.Initialize(
   credentials,
-  project=os.environ['PROJECT'],
+  project=os.environ['GOOGLE_CLOUD_PROJECT'],
   opt_url='https://earthengine-highvolume.googleapis.com'
 )
 
