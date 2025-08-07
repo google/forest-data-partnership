@@ -20,7 +20,7 @@ def main(request):
   credentials, _ = google.auth.default(
       scopes=['https://www.googleapis.com/auth/earthengine']
   )
-  ee.Initialize(credentials, project=os.environ['PROJECT'])
+  ee.Initialize(credentials, project=os.environ['GOOGLE_CLOUD_PROJECT'])
   try:
     replies = []
     request_json = request.get_json(silent=True)
