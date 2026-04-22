@@ -125,6 +125,9 @@ Through this process, we created three assumed independent sets: a training set,
 | Natural forest | 1,872,039 | 38,279 | 38,649 |
 | Other | 2,081,203 | 52,637 | 52,388 |
 
+**Figure 2. Training, test and evaluation data partitioning for a sub-region of West Sumatra, Indonesia.**
+![grid_training_test_2025b](/assets/images/grid_training_test_2025b.png)
+
 ## Spectral thinning
 
 In addition to the convergence of evidence based masking we used to refine reference data, we also employed thinning in feature space to further eliminate non-representative examples from the training set. Specifically, we assume that classes form compact structures in feature space, with representative examples close to the class centroid. The class centroids are first computed from the training set. To ensure geographic representation of each class, which occur in biophysically diverse growth contexts, we computed percentiles by euclidean distance to class centroid in level 5 geohashes (~4.89 kilometer resolution) across the spatial domain of the training data. In each geohash, we selected the 30% of the training data closest to the global class centroid. The resultant class distribution is shown in Table 4. Note that following spatial partitioning and spectral thinning, roughly 21-23% of reference data was retained for training.
@@ -168,7 +171,7 @@ The training dataset that results from temporal augmentation is still class imba
 | Natural forest | 807,848 |
 | Other | 794,881 |
 
-**Figure 2. Training, test and evaluation data partitioning for a sub-region of West Sumatra, Indonesia.**
+**Figure 3. Label count by year and class after temporal augmentation..**
 ![balanced_training_data_distribution_2025b](/assets/images/balanced_training_data_distribution_2025b.png)
 
 ## Classification
