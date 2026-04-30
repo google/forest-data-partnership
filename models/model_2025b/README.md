@@ -1,12 +1,12 @@
 # Introduction
 
-Here, we introduce the first pan-tropical, high resolution (10-meter) dataset that maps four major commodity tree crops: cocoa, coffee, rubber, and oil palm. For this work, we assembled a large, community-sourced reference database of over eight million points, integrating field observations and expert interpretation of high-resolution (less than one meter) imagery. We combined these samples with the Google Satellite Embeddings dataset in a deep learning framework that generates both classification labels and per-pixel class probability layers. Unlike existing, static map products, our model is deployable on-demand in Google Earth Engine (Gorelick et al., 2017), allowing us to generate maps for any year and region of interest. As continuous per-pixel probability layers, the dataset offers global consistency, local customization and per-pixel entropy as a spatial measure of model confusion. We illustrate the utility of our maps by showcasing representative outputs in key production regions and demonstrating how the dataset can be adapted to improve local performance and track change dynamics.
+Here, we introduce the first pan-tropical, high resolution (10-meter) dataset that maps four major commodity tree crops: cocoa, coffee, rubber, and oil palm. For this work, we assembled a large, community-sourced reference database of over eight million points, integrating field observations and expert interpretation of high-resolution (less than one meter) imagery. We combined these samples with the [AlphaEarth Foundations Satellite Embeddings dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL) in a deep learning framework that generates both classification labels and per-pixel class probability layers. Unlike existing, static map products, our model is deployable on-demand in Google Earth Engine (Gorelick et al., 2017), allowing us to generate maps for any year and region of interest. As continuous per-pixel probability layers, the dataset offers global consistency, local customization and options to measure model confusion. We illustrate the utility of our maps by showcasing representative outputs in key production regions and demonstrating how the dataset can be adapted to improve local performance and track change dynamics.
 
 # Methods
 
 ## Geospatial foundation model inputs
 
-As predictive inputs to the model, we used the AlphaEarth geospatial foundation model embeddings (Brown et al. 2025).  These embeddings constitute a 64-dimensional feature space, at 10 meters spatial resolution, produced annually.  The feature space contains condensed information from a variety of sensors, spectral regions, and derivative products such as climate and topography and was designed to facilitate predictive modeling of land surface characteristics in "data scarce regimes."  We use these data as predictive features on a per-pixel basis.  Because information from a 1280x1280 meter patch and a year's worth of data is encoded in the 64-D vectors, spatiotemporal convolutions are unnecessary in the model.  We used these data directly as predictive features and also as a change detector, during temporal augmentation.
+As predictive inputs to the model, we used the AlphaEarth Foundations Satellite Embeddings dataset (Brown et al. 2025).  These embeddings constitute a 64-dimensional feature space, at 10 meters spatial resolution, produced annually.  The feature space contains condensed information from a variety of sensors, spectral regions, and derivative products such as climate and topography and was designed to facilitate predictive modeling of land surface characteristics in "data scarce regimes."  We use these data as predictive features on a per-pixel basis.  Because information from a 1280x1280 meter patch and a year's worth of data is encoded in the 64-D vectors, spatiotemporal convolutions are unnecessary in the model.  We used these data directly as predictive features and also as a change detector, during temporal augmentation.
 
 ## Commodity reference database
 
@@ -20,7 +20,7 @@ We use several ancillary datasets in a convergence of evidence approach (D'Annun
 
 ## Reference polygon sampling
 
-Some reference data was non-specific, with geometries containing more than the labeled commodity (e.g. roads, buildings, windbreaks, patches of other vegetation).  To improve sample purity, we masked commodity data with the ancillary datasets to exclude areas of natural forest, bare land, or land cover without the presence of the labeled commodity.  To capture within-field variability arising from different canopy densities, planting ages, and irregular spatial arrangements, we buffered polygons by 10 meters and systematically sampled unmasked pixels with a lattice at 10 or 20 meters spacing.
+Some reference data was non-specific, with geometries containing more than the labeled commodity (e.g. roads, buildings, windbreaks, patches of other vegetation).  To improve sample purity, we masked commodity data with the ancillary datasets to exclude areas of natural forest, bare land, or land cover without the presence of the labeled commodity.  To capture within-field variability arising from different canopy densities, planting ages, and irregular spatial arrangements, we buffered polygons by 10 meters and systematically sampled unmasked pixels with a lattice at 10 or 20 meters spacing. The buffering and/or masking were applied as-needed to select datasets obviously impure on visual inspection.
 
 ## Negatives sampling
 
@@ -176,18 +176,18 @@ The training dataset that results from temporal augmentation is still class imba
 
 ## Classification
 
-Model training and classification were performed using a cloud-based infrastructure similar to Google Cloud AutoML (Bisong et al., 2019). Model architecture, activation functions, optimization routines, learning rates, batch sizes, and training iterations were selected through an automated hyperparameter search, with up to 24 hours allocated for optimization and 24 hours for training. Model architecture is constrained to deep neural networks (DNNs), or networks with one or more hidden layers and one-dimensional inputs. We used the test set for model selection in the optimization phase, the training set for training and did not use the evaluation set.
+Model training and inference were performed using a cloud-based infrastructure similar to Google Cloud AutoML (Bisong et al., 2019). Model architecture, activation functions, optimization routines, learning rates, batch sizes, and training iterations were selected through an automated hyperparameter search, with up to 24 hours allocated for optimization and 24 hours for training. Model architecture was constrained to deep neural networks (DNNs), or networks with one or more hidden layers and one-dimensional inputs. We used the test set for model selection in the optimization phase, the training set for training and did not use the evaluation set.
 
-The final TensorFlow-based DNN was hosted on Vertex AI and deployed in Google Earth Engine. The model outputs probability of class occurrence, either in a vector, for multiclass training, or as a scalar for single class model training.
+The final TensorFlow-based DNNs were hosted on Vertex AI and deployed in Google Earth Engine. The models output probability of class occurrence as a scalar for each single class model.
 
 ## Data Records 
 
 The outputs generated by this study are: 
 
-1. Fully trained tree crop classification models, deployable on-the-fly in Google Earth Engine via VertexAI.
-2. Per-pixel probability layers for each class for selected even-numbered years.
+1. Fully trained tree crop prediction models, deployable on-the-fly in Google Earth Engine via VertexAI.
+2. Per-pixel probability layers for each class for selected years.
 
-These products are designed to flexibly adapt to diverse use cases, for example by tuning per-class thresholds to local conditions and/or independent field data. The probability layers, when stacked with other datasets, form a per-pixel classification. For example, when combined with natural forest (Neumann et al.) and water from WorldCover (Zanaga et al. 2021), a pan-tropical map of commodity production in 2020 is assembled.  
+These products are designed to flexibly adapt to diverse use cases, for example by tuning per-class thresholds to local conditions and/or independent field data. The probability layers, when ensembled with other datasets, form a per-pixel classification. For example, when combined with natural forest (Neumann et al. 2025) and water from WorldCover (Zanaga et al. 2021), a pan-tropical map of commodity production in 2020 is assembled.  
 
 Data Link: [https://goo.gle/fodapa-layers-2025b](https://goo.gle/fodapa-layers-2025b)
 
@@ -219,9 +219,10 @@ We evaluated single-class model performance on the evaluation set described prev
 
 *   Comparison of estimates of accuracy from generated evaluation data and independent validation data suggests that accuracies from generated evaluation data are overestimates. It is incumbent upon the consumer of the data to conduct localized accuracy assessments to ensure suitability for any particular purpose.
 *   Qualitative inspection of the categorical maps revealed mixed performance across regions. 
-    *   Palm is overestimated in dense canopy forest.
+    *   Palm is overestimated in dense canopy forest and/or some mangrove areas.
     *   Coffee is overestimated in topographically suitable locations.
-    *   Rubber is underestimated in South Sumatra.
+    *   Cocoa is overpredicted in ecotones.
+    *   Rubber is underestimated in South Sumatra and possibly other areas.
 *   While the tree crops were all overpredicted on average, many areas showed strong correspondence with existing plantation locations and field boundaries. 
 *   Our training dataset is largely opportunistic, and does not comprehensively represent every class in every region. Users should exercise extreme caution when using data in areas not represented in our training dataset.
 *   Temporal instability between years is present. Determination of change may require statistical comparison of multiple time periods (Clinton et al. 2024), adjustment of thresholds annually, or post processing such as BULC (Cardille and Fortin 2016).
@@ -264,4 +265,4 @@ We evaluated single-class model performance on the evaluation set described prev
 
 # Suggested citation
 
-Forest Data Partnership. 2026. Community models 2025b. https://github.com/google/forest-data-partnership/edit/main/models/model_2025a/README.md
+Forest Data Partnership. 2025b. Community models 2025b. https://github.com/google/forest-data-partnership/edit/main/models/model_2025b/README.md
