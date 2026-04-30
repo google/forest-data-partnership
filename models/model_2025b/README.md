@@ -195,7 +195,7 @@ Data Link: [https://goo.gle/fodapa-layers-2025b](https://goo.gle/fodapa-layers-2
 
 ### Model performance
 
-We evaluated single-class model performance on the evaluation set described previously by recoding labels to one-hot vectors. We also evaluated the palm model on the Descals et al. (2024b) validation set and the rubber model on the Sheil et al. (2024) validation set. We present these results as precision-recall curves to illustrate accuracy tradeoffs with choice of threshold. We also report accuracy at the intersection of precision and recall curves, but note that these metrics are synoptic and map accuracy varies temporally and geographically.
+We evaluated single-class model performance on the evaluation set described previously by recoding labels to one-hot vectors. We also evaluated the palm model on the Descals et al. (2024a) validation set and the rubber model on the Sheil et al. (2024) validation set. We present these results as precision-recall curves to illustrate accuracy tradeoffs with choice of threshold. We also report accuracy at the intersection of precision and recall curves, but note that these metrics are synoptic and map accuracy varies temporally and geographically.
 
 *   **Palm (generated evaluation):** 0.92 @ 0.22
 ![palm_test_accuracy_2025b](/assets/images/palm_test_accuracy_2025b.png)
