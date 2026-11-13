@@ -211,6 +211,8 @@ Table 6. Precision and recall at the specified thresholds on the model selection
 | Palm | 0.47 | 89% |
 | Rubber | 0.35 | 94% |
 
+See also [this comparison of thressholds to FAOSTAT statistics, by country and year](https://github.com/google/forest-data-partnership/blob/main/models/model_2026a/faostat_thresholds_2026a.md).
+
 ### Cocoa
 
 ![cocoa_test_accuracy_2026a](/assets/images/cocoa_test_accuracy_2026a.png)
